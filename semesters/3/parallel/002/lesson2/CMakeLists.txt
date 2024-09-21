@@ -19,10 +19,9 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++17 -O2")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # ---------------------------------         Find MPI        --------------------------------
-
 find_package(MPI)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
 add_executable(lesson2 ${PROJECT_SOURCES})
-target_link_libraries(lesson2 ${MPI_CPP_LIBRARIES})
+target_link_libraries(lesson2 PUBLIC MPI::MPI_CXX)
