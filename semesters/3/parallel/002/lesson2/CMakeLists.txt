@@ -22,6 +22,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(MPI)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
+if(LINUX)
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
+endif()
+
 file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
 add_executable(lesson2 ${PROJECT_SOURCES})
 target_link_libraries(lesson2 PUBLIC MPI::MPI_CXX)
