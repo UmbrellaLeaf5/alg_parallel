@@ -27,6 +27,8 @@ if(LINUX)
 endif()
 
 # file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
-
 add_executable(size_rank_lesson3 size_rank/size_rank.cpp)
 target_link_libraries(size_rank_lesson3 PUBLIC MPI::MPI_CXX)
+
+add_executable(send_lesson3 send/send.cpp)
+target_link_libraries(send_lesson3 PUBLIC MPI::MPI_CXX)

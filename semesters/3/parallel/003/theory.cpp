@@ -11,11 +11,11 @@ int MPI_Comm_rank(MPI_Comm comm, int *rank);  // номера процессов
 // addr   nitems   datatype
 
 int MPI_Send(void *buf, int nitems,
-             MPI_Datatype data_type /* MPI_Int или MPI_Float*/, int rank_to,
+             MPI_Datatype data_type /* MPI_Int или MPI_FLOAT*/, int rank_to,
              int tag, MPI_Comm comm);
 
 int MPI_Recv(void *buf, int maxnitems,
-             MPI_Datatype data_type /* MPI_Int или MPI_Float*/,
+             MPI_Datatype data_type /* MPI_INT или MPI_FLOAT*/,
              int rank_from /* MPI_ANY_SOURCE */, int what_tag /* MPI_ANY_TAG */,
              MPI_Comm comm, MPI_Status *state);
 
