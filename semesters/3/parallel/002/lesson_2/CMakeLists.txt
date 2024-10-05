@@ -27,5 +27,5 @@ if(LINUX)
 endif()
 
 file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
-add_executable(lesson2 ${PROJECT_SOURCES})
-target_link_libraries(lesson2 PUBLIC MPI::MPI_CXX)
+add_executable(hw_lesson2 ${PROJECT_SOURCES})
+target_link_libraries(hw_lesson2 PUBLIC MPI::MPI_CXX)

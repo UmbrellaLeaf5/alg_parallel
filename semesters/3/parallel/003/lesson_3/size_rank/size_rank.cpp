@@ -2,9 +2,6 @@
 
 #include <iostream>
 
-// int MPI_Comm_size (MPI_Comm comm, int *size); // кол-во процессов в группе
-// int MPI_Comm_rank (MPI_Comm comm, int *rank); // номера процессов в группе
-
 void AbortTest(int state) {
   if (state != MPI_SUCCESS) MPI_Abort(MPI_COMM_WORLD, state);
 }

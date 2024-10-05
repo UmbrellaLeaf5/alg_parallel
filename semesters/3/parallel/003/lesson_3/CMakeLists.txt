@@ -28,5 +28,5 @@ endif()
 
 # file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
 
-add_executable(size_rank_lesson3 size_rank.cpp)
+add_executable(size_rank_lesson3 size_rank/size_rank.cpp)
 target_link_libraries(size_rank_lesson3 PUBLIC MPI::MPI_CXX)
