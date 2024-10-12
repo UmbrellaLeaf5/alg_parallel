@@ -1,0 +1,21 @@
+Rank: 0;   Sended: 10000;   To: 1
+Rank: 1; Received: 10000; From: 0
+Rank: 0;   Sended: 10000;   To: 2
+Rank: 1;   Sended: 0.644406;   To: 0
+Rank: 0;   Sended: 10000;   To: 3
+Rank: 0;   Sended: 10000;   To: 4
+Rank: 2; Received: 10000; From: 0
+Rank: 2;   Sended: 0.60482;   To: 0
+Rank: 3; Received: 10000; From: 0
+Rank: 3;   Sended: 0.539938;   To: 0
+Rank: 0;   Sended: 10000;   To: 5
+Rank: 0; Received: 0.644406; From: 1
+Rank: 0; Received: 0.60482; From: 2
+Rank: 0; Received: 0.539938; From: 3
+Rank: 0; Received: 0.438301; From: 4
+Rank: 4; Received: 10000; From: 0
+Rank: 4;   Sended: 0.438301;   To: 0
+Rank: 5; Received: 10000; From: 0
+Rank: 0; Received: 0.250794; From: 5
+Pi: 3.14156
+Rank: 5;   Sended: 0.250794;   To: 0
