@@ -3,7 +3,8 @@
 # ---------------------------------     Project setup      ---------------------------------
 cmake_minimum_required(VERSION 3.20)
 
-project(lesson3 LANGUAGES CXX)
+get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
+project(${PROJECT_NAME} C CXX)
 
 # ---------------------------------    Set C++ settings    ---------------------------------
 set(CMAKE_CXX_STANDARD 17)
@@ -12,7 +13,6 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++17 -O2")
 
 # less speed, more warnings = less potential errors in code
 # flags using source: https://codeforces.com/blog/entry/15547?locale=ru
-# (commented because of qcustomplot warnings)
 # set(CMAKE_CXX_FLAGS " -Wall -Wextra -pedantic -std=c++17 -O2 -Wfloat-equal -Wconversion -Wlogical-op -Wduplicated-cond")
 
 # ---------------------------------   Set CMake settings   ---------------------------------
@@ -26,9 +26,19 @@ if(LINUX)
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
 endif()
 
-# file(GLOB_RECURSE PROJECT_SOURCES "*.hpp" "*.cpp")
-add_executable(size_rank_lesson3 size_rank/size_rank.cpp)
-target_link_libraries(size_rank_lesson3 PUBLIC MPI::MPI_CXX)
+# ---------------------------------      Add executable     --------------------------------
+file(GLOB_RECURSE SUBFOLDERS LIST_DIRECTORIES true ".")
 
-add_executable(send_lesson3 send/send.cpp)
-target_link_libraries(send_lesson3 PUBLIC MPI::MPI_CXX)
+foreach(SUBDIR ${SUBFOLDERS})
+  IF(IS_DIRECTORY ${SUBDIR})
+    get_filename_component(SUBPROJECT_NAME ${SUBDIR} NAME)
+    set(SUBPROJECT_NAME "${SUBPROJECT_NAME}_${PROJECT_NAME}")
+
+    file(GLOB_RECURSE SUBPROJECT_SOURCES "${SUBDIR}/*.hpp" "${SUBDIR}/*.cpp")
+
+    add_executable(${SUBPROJECT_NAME} ${SUBPROJECT_SOURCES})
+    target_link_libraries(${SUBPROJECT_NAME} PUBLIC MPI::MPI_CXX)
+  ELSE()
+    CONTINUE()
+  ENDIF()
+endforeach()
