@@ -7,21 +7,48 @@ void AbortTest(int state) {
 }
 
 int main(int argc, char *argv[]) {
+  int tag = 35817;
+  MPI_Status status;
+
   int st;
   st = MPI_Init(&argc, &argv);
   AbortTest(st);
 
-  int size = 0;
-  st = MPI_Comm_size(MPI_COMM_WORLD, &size);
+  int N;
+  st = MPI_Comm_size(MPI_COMM_WORLD, &N);
   AbortTest(st);
 
-  int rank = 0;
+  int rank;
   st = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   AbortTest(st);
 
-  std::cout << "Hello World! "
-            << "We are processes, how many: " << size << "; our rank: " << rank
-            << std::endl;
+  int i;
+  int dest_rank = 0;  // если dest_rank != N -1, меняется
+  if (rank < N && rank != N - 1) dest_rank = rank + 1;
+
+  if (rank == 0) {
+    i = 0;
+    st = MPI_Send(&i, 1, MPI_INT, dest_rank, tag, MPI_COMM_WORLD);
+    AbortTest(st);
+
+    std::cout << "Rank: " << rank << ";   Sended: " << i
+              << ";   To: " << rank + 1 << std::endl;
+  }
+
+  st = MPI_Recv(&i, 1, MPI_INT, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
+  AbortTest(st);
+
+  std::cout << "Rank: " << rank << "; Received: " << i
+            << "; From: " << status.MPI_SOURCE << std::endl;
+
+  if (rank != 0) {
+    i += rank;
+    st = MPI_Send(&i, 1, MPI_INT, dest_rank, tag, MPI_COMM_WORLD);
+    AbortTest(st);
+
+    std::cout << "Rank: " << rank << ";   Sended: " << i
+              << ";   To: " << rank + 1 << std::endl;
+  }
 
   MPI_Finalize();
 }

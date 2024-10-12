@@ -1,0 +1,12 @@
+Rank: 0;   Sended: 0;   To: 1
+Rank: 1; Received: 0; From: 0
+Rank: 1;   Sended: 1;   To: 2
+Rank: 2; Received: 1; From: 1
+Rank: 2;   Sended: 3;   To: 3
+Rank: 3; Received: 3; From: 2
+Rank: 3;   Sended: 6;   To: 4
+Rank: 4; Received: 6; From: 3
+Rank: 4;   Sended: 10;   To: 5
+Rank: 5; Received: 10; From: 4
+Rank: 0; Received: 15; From: 5
+Rank: 5;   Sended: 15;   To: 6
