@@ -1,11 +1,10 @@
-#include <mpi.h>
-
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "parallel.hpp"
 #include "pi.hpp"
 
 /**
@@ -30,35 +29,20 @@ int NumberFromFile(const std::string& filename) {
   return number;
 }
 
-void AbortTest(int state) {
-  if (state != MPI_SUCCESS) MPI_Abort(MPI_COMM_WORLD, state);
-}
-
 int main(int argc, char* argv[]) {
-  int tag = 35817;
-  MPI_Status status;
+  parallel::Init(argc, argv);
 
-  int st;
-  st = MPI_Init(&argc, &argv);
-  AbortTest(st);
-
-  int ranks_amount;
-  st = MPI_Comm_size(MPI_COMM_WORLD, &ranks_amount);
-  AbortTest(st);
-
-  int curr_rank;
-  st = MPI_Comm_rank(MPI_COMM_WORLD, &curr_rank);
-  AbortTest(st);
+  int ranks_amount = parallel::RanksAmount();
+  int curr_rank = parallel::CurrRank();
 
   int N;
-  double zero_part_of_pi;
+  double zero_part_of_pi = 0;
 
   if (curr_rank == 0) {
     N = NumberFromFile("N.dat");
 
     for (int i = 1; i < ranks_amount; i++) {
-      st = MPI_Send(&N, 1, MPI_INT, i, tag, MPI_COMM_WORLD);
-      AbortTest(st);
+      parallel::Send(N, MPI_INT, i);
 
       std::cout << "Rank: " << curr_rank << ";   Sended: " << N
                 << ";   To: " << i << std::endl;
@@ -66,16 +50,16 @@ int main(int argc, char* argv[]) {
   }
 
   if (curr_rank != 0) {
-    st = MPI_Recv(&N, 1, MPI_INT, 0, tag, MPI_COMM_WORLD, &status);
-    AbortTest(st);
+    MPI_Status status;
+
+    parallel::Receive(N, MPI_INT, status, 0);
 
     std::cout << "Rank: " << curr_rank << "; Received: " << N
               << "; From: " << status.MPI_SOURCE << std::endl;
 
     double part_of_pi = PartOfPi(N, curr_rank * (N / ranks_amount),
                                  (curr_rank + 1) * (N / ranks_amount));
-    st = MPI_Send(&part_of_pi, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
-    AbortTest(st);
+    parallel::Send(part_of_pi, MPI_DOUBLE, 0);
 
     std::cout << "Rank: " << curr_rank << ";   Sended: " << part_of_pi
               << ";   To: " << 0 << std::endl;
@@ -88,10 +72,10 @@ int main(int argc, char* argv[]) {
 
   if (curr_rank == 0) {
     for (int i = 1; i < ranks_amount; i++) {
+      MPI_Status status;
+
       double part_of_pi;
-      st = MPI_Recv(&part_of_pi, 1, MPI_DOUBLE, MPI_ANY_SOURCE, tag,
-                    MPI_COMM_WORLD, &status);
-      AbortTest(st);
+      parallel::Receive(part_of_pi, MPI_DOUBLE, status);
 
       std::cout << "Rank: " << curr_rank << "; Received: " << part_of_pi
                 << "; From: " << status.MPI_SOURCE << std::endl;

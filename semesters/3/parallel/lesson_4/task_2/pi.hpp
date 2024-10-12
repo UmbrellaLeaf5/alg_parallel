@@ -32,7 +32,7 @@ double PartOfPi(int N, int start, int end) {
   double seg = 2.0 / N;
   double curr_pos = double(start) / N * 2;
 
-  for (short i = start; i < end; i++) {
+  for (int i = start; i < end; i++) {
     part_of_pi += Area(curr_pos, seg);
     curr_pos += seg;
   }
