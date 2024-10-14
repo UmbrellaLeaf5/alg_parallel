@@ -87,5 +87,5 @@ int main(int argc, char* argv[]) {
     std::cout << "Pi: " << pi << std::endl;
   }
 
-  MPI_Finalize();
+  parallel::Finalize();
 }

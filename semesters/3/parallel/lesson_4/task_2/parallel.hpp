@@ -24,6 +24,9 @@ void AbortTest(int state, MPI_Comm comm = MPI_COMM_WORLD) {
  */
 void Init(int argc, char *argv[]) { AbortTest(MPI_Init(&argc, &argv)); }
 
+/// @brief Завершает работу со средой MPI.
+void Finalize() { MPI_Finalize(); }
+
 /**
  * @brief Возвращает количество процессов в коммуникаторе.
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
