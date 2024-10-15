@@ -5,4 +5,4 @@
 #PBS -q batch
 
 cd $PBS_O_WORKDIR
-mpirun --hostfile $PBS_NODEFILE -np 6 ./a.out
+mpirun --hostfile $PBS_NODEFILE -np 1 ./a.out

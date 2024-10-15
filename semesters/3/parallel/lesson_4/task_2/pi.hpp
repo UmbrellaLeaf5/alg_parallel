@@ -17,7 +17,7 @@ double FourMinusSqrt(double x) { return sqrt(4.0 - x * x); }
  * @return double: значение площади
  */
 double Area(double x, double seg) {
-  return (FourMinusSqrt(x) + FourMinusSqrt(x + seg)) * seg / 2;
+  return (FourMinusSqrt(x) + FourMinusSqrt(x + seg)) * seg / 2.0;
 }
 
 /**
@@ -30,10 +30,10 @@ double Area(double x, double seg) {
 double PartOfPi(int N, int start, int end) {
   double part_of_pi = 0;
   double seg = 2.0 / N;
-  double curr_pos = double(start) / N * 2;
+  double curr_pos = double(start) / N * 2.0;
 
   for (int i = start; i < end; i++) {
-    part_of_pi += Area(curr_pos, seg);
+    if (std::isfinite(Area(curr_pos, seg))) part_of_pi += Area(curr_pos, seg);
     curr_pos += seg;
   }
 
@@ -53,7 +53,7 @@ double Pi(int N) {
   double curr_pos = 0;
 
   for (short i = 0; i < N; i++) {
-    pi += Area(curr_pos, seg);
+    if (std::isfinite(Area(curr_pos, seg))) pi += Area(curr_pos, seg);
     curr_pos += seg;
   }
 
