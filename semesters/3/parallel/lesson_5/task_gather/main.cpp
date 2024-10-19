@@ -53,8 +53,7 @@ int main(int argc, char* argv[]) {
   const int N = 120;
 
   if (N % ranks_amount != 0) {
-    throw std::runtime_error(
-        "main: N is not divisible by the number of processes.");
+    throw std::runtime_error("main: N is not divisible by processes amount.");
 
     MPI_Abort(MPI_COMM_WORLD, 1);
   }
