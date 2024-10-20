@@ -13,7 +13,7 @@ namespace parallel {
  * @param state: состояние выполнения MPI.
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  */
-void CheckSuccess(int state, MPI_Comm comm = MPI_COMM_WORLD) {
+inline void CheckSuccess(int state, MPI_Comm comm = MPI_COMM_WORLD) {
   if (state != MPI_SUCCESS) MPI_Abort(comm, state);
 }
 
@@ -22,17 +22,19 @@ void CheckSuccess(int state, MPI_Comm comm = MPI_COMM_WORLD) {
  * @param argc: количество аргументов командной строки.
  * @param argv: массив аргументов командной строки.
  */
-void Init(int argc, char *argv[]) { CheckSuccess(MPI_Init(&argc, &argv)); }
+inline void Init(int argc, char *argv[]) {
+  CheckSuccess(MPI_Init(&argc, &argv));
+}
 
 /// @brief Завершает работу со средой MPI.
-void Finalize() { CheckSuccess(MPI_Finalize()); }
+inline void Finalize() { CheckSuccess(MPI_Finalize()); }
 
 /**
  * @brief Возвращает количество процессов в коммуникаторе.
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  * @return количество процессов.
  */
-int RanksAmount(MPI_Comm comm = MPI_COMM_WORLD) {
+inline int RanksAmount(MPI_Comm comm = MPI_COMM_WORLD) {
   int ranks_amount = 0;
   CheckSuccess(MPI_Comm_size(comm, &ranks_amount));
 
@@ -44,7 +46,7 @@ int RanksAmount(MPI_Comm comm = MPI_COMM_WORLD) {
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  * @return ранг (индекс) текущего процесса.
  */
-int CurrRank(MPI_Comm comm = MPI_COMM_WORLD) {
+inline int CurrRank(MPI_Comm comm = MPI_COMM_WORLD) {
   int curr_rank = 0;
   CheckSuccess(MPI_Comm_rank(comm, &curr_rank));
 
@@ -61,8 +63,9 @@ int CurrRank(MPI_Comm comm = MPI_COMM_WORLD) {
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  */
 template <typename T>
-void Send(T &value, MPI_Datatype datatype, int to_rank,
-          int tag = STANDARD_PARALLEL_TAG, MPI_Comm comm = MPI_COMM_WORLD) {
+inline void Send(T &value, MPI_Datatype datatype, int to_rank,
+                 int tag = STANDARD_PARALLEL_TAG,
+                 MPI_Comm comm = MPI_COMM_WORLD) {
   CheckSuccess(MPI_Send(&value, 1, datatype, to_rank, tag, comm));
 }
 
@@ -77,8 +80,9 @@ void Send(T &value, MPI_Datatype datatype, int to_rank,
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  */
 template <typename T>
-void Send(T *array, int count, MPI_Datatype datatype, int to_rank,
-          int tag = STANDARD_PARALLEL_TAG, MPI_Comm comm = MPI_COMM_WORLD) {
+inline void Send(T *array, int count, MPI_Datatype datatype, int to_rank,
+                 int tag = STANDARD_PARALLEL_TAG,
+                 MPI_Comm comm = MPI_COMM_WORLD) {
   CheckSuccess(MPI_Send(array, count, datatype, to_rank, tag, comm));
 }
 
@@ -93,9 +97,10 @@ void Send(T *array, int count, MPI_Datatype datatype, int to_rank,
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  */
 template <typename T>
-void Receive(T &value, MPI_Datatype datatype, MPI_Status &status,
-             int from_rank = MPI_ANY_SOURCE, int tag = STANDARD_PARALLEL_TAG,
-             MPI_Comm comm = MPI_COMM_WORLD) {
+inline void Receive(T &value, MPI_Datatype datatype, MPI_Status &status,
+                    int from_rank = MPI_ANY_SOURCE,
+                    int tag = STANDARD_PARALLEL_TAG,
+                    MPI_Comm comm = MPI_COMM_WORLD) {
   CheckSuccess(MPI_Recv(&value, 1, datatype, from_rank, tag, comm, &status));
 }
 
@@ -111,9 +116,10 @@ void Receive(T &value, MPI_Datatype datatype, MPI_Status &status,
  * @param comm: коммуникатор MPI. По умолчанию используется MPI_COMM_WORLD.
  */
 template <typename T>
-void Receive(T *array, int count, MPI_Datatype datatype, MPI_Status &status,
-             int from_rank = MPI_ANY_SOURCE, int tag = STANDARD_PARALLEL_TAG,
-             MPI_Comm comm = MPI_COMM_WORLD) {
+inline void Receive(T *array, int count, MPI_Datatype datatype,
+                    MPI_Status &status, int from_rank = MPI_ANY_SOURCE,
+                    int tag = STANDARD_PARALLEL_TAG,
+                    MPI_Comm comm = MPI_COMM_WORLD) {
   CheckSuccess(MPI_Recv(array, count, datatype, from_rank, tag, comm, &status));
 }
 
