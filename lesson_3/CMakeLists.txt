@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
-project(${PROJECT_NAME} C CXX)
+project(${PROJECT_NAME} LANGUAGES CXX)
 
 # ---------------------------------    Set C++ settings    ---------------------------------
 set(CMAKE_CXX_STANDARD 17)
@@ -32,13 +32,23 @@ file(GLOB_RECURSE SUBFOLDERS LIST_DIRECTORIES true ".")
 foreach(SUBDIR ${SUBFOLDERS})
   IF(IS_DIRECTORY ${SUBDIR})
     get_filename_component(SUBPROJECT_NAME ${SUBDIR} NAME)
-    set(SUBPROJECT_NAME "${SUBPROJECT_NAME}_${PROJECT_NAME}")
+    set(SUBPROJECT_NAME "${PROJECT_NAME}_${SUBPROJECT_NAME}")
 
     file(GLOB_RECURSE SUBPROJECT_SOURCES "${SUBDIR}/*.hpp" "${SUBDIR}/*.cpp")
 
     add_executable(${SUBPROJECT_NAME} ${SUBPROJECT_SOURCES})
-    target_link_libraries(${SUBPROJECT_NAME} PUBLIC MPI::MPI_CXX)
+
+    find_library(Lib ../)
+    target_link_libraries(${SUBPROJECT_NAME} PUBLIC MPI::MPI_CXX Lib)
   ELSE()
     CONTINUE()
   ENDIF()
 endforeach()
+
+# ---------------------------------     Copy extra files    --------------------------------
+file(GLOB_RECURSE EXTRA_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*")
+file(GLOB_RECURSE PROJECT_FILES "*.cpp" "*.h" "*.hpp" "*.sh" "*.o*" "*.e*" ".md")
+
+list(REMOVE_ITEM EXTRA_FILES ${PROJECT_FILES})
+
+file(COPY ${EXTRA_FILES} DESTINATION ${PROJECT_BINARY_DIR})

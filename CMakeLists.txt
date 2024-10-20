@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
-project(${PROJECT_NAME} C CXX)
+project(${PROJECT_NAME} LANGUAGES CXX)
 
 # ---------------------------------    Set C++ settings    ---------------------------------
 set(CMAKE_CXX_STANDARD 17)
@@ -39,3 +39,6 @@ foreach(DIR ${SUBDIRS})
     CONTINUE()
   ENDIF()
 endforeach()
+
+# Lib
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib)
