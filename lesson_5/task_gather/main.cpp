@@ -63,9 +63,9 @@ int main(int argc, char* argv[]) {
   std::vector<int> main_vec;
   if (curr_rank == 0) main_vec.resize(N);
 
-  parallel::AbortTest(MPI_Gather(curr_rank_vec.data(), N / ranks_amount,
-                                 MPI_INT, main_vec.data(), N / ranks_amount,
-                                 MPI_INT, 0, MPI_COMM_WORLD));
+  parallel::CheckSuccess(MPI_Gather(curr_rank_vec.data(), N / ranks_amount,
+                                    MPI_INT, main_vec.data(), N / ranks_amount,
+                                    MPI_INT, 0, MPI_COMM_WORLD));
 
   if (curr_rank == 0) VectorToFile(main_vec, "result.txt");
 
