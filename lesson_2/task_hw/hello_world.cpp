@@ -11,9 +11,3 @@ int main(int argc, char *argv[]) {
   std::cout << "Hello World!" << std::endl;
   MPI_Finalize();
 }
-
-// mpic++ -Wall -Wextra -pedantic lesson2.cpp
-
-// qsub start.sh
-
-// qstat

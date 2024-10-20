@@ -4,7 +4,8 @@
 ```C++
 int MPI_Comm_size(MPI_Comm comm, int *size); 
 ```
-Номера процессов в группе
+
+Номер процесса в группе
 ```C++ 
 int MPI_Comm_rank(MPI_Comm comm, int *rank);  
 ```
