@@ -10,7 +10,7 @@ int main(int argc, char *argv[]);
 // Пример:
 // ./a.out 156 bb
 // argc = 3
-// argv = [/*указатели на ]
+// argv = [указатели на]
 ```
 
 Объявление:
@@ -30,6 +30,7 @@ int MPI_Initialized(int *flag);
 // 2.
 int MPI_Finalize(void);
 ```
+
 Если не `MPI_SUCCESS`:
 ```C++
 int MPI_Abort(MPI_Comm com, int code);
@@ -48,7 +49,3 @@ int main(int argc, char *argv[]) {
   MPI_Finalize();
 }
 ```
-
-Отдельные компиляторы для использования MPI, не сильно парясь:
-`c: mpicc`
-`c++: mpic++`
