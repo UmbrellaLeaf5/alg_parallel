@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
   if (curr_rank == 0) N = NumberFromFile("N.dat");
 
-  parallel::CheckSuccess(MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD));
+  parallel::Broadcast(N, MPI_INT);
 
   double part_of_pi;
 
@@ -48,8 +48,7 @@ int main(int argc, char* argv[]) {
 
   double pi = 0;
 
-  parallel::CheckSuccess(
-      MPI_Reduce(&part_of_pi, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD));
+  parallel::Operation(&part_of_pi, &pi, 1, MPI_DOUBLE, MPI_SUM);
 
   if (curr_rank == 0) std::cout << "Pi: " << pi << std::endl;
 
