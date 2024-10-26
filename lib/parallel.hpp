@@ -318,7 +318,7 @@ inline void Operation(const std::vector<T> &from_vec, std::vector<T> &to_vec,
         "parallel::Operation: vector is too big (size > INT_MAX).");
 
   parallel::Operation(from_vec.data(), to_vec.data(),
-                      static_cast<int>(from_vec.size();), datatype, op, to_rank,
+                      static_cast<int>(from_vec.size()), datatype, op, to_rank,
                       comm);
 }
 
