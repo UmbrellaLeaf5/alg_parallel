@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
 
 /**
@@ -42,4 +44,17 @@ inline void VectorToFile(const std::vector<Type>& vec,
   out << vec;
 
   out.close();
+}
+
+/**
+ * @brief Конвертирует тип, для которого определна операция ввода в std::string
+ * @tparam T: тип
+ * @param value: значение
+ * @return std::string: выходная строка
+ */
+template <typename T>
+std::string ToString(T value) {
+  std::stringstream ss;
+  ss << value;
+  return ss.str();
 }
