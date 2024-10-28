@@ -6,28 +6,7 @@
 
 #include "parallel.hpp"
 #include "pi.hpp"
-
-/**
- * @brief Считывает число из файла (из первой строки)
- * @param file_name: название файла (по умолчанию "N.dat")
- * @return int: число
- */
-int NumberFromFile(const std::string& filename) {
-  std::ifstream in(filename.c_str());
-  std::string line;
-
-  if (!in.is_open()) {
-    throw std::runtime_error("NumberFromFile: file opening error.");
-    return 0;
-  }
-
-  int number;
-  in >> number;
-
-  in.close();
-
-  return number;
-}
+#include "utils.hpp"
 
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);

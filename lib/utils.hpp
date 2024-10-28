@@ -35,15 +35,39 @@ inline std::ostream& operator<<(std::ostream& os,
  */
 template <typename Type>
 inline void VectorToFile(const std::vector<Type>& vec,
-                         const std::string& file_name) {
+                         const std::string& file_name = "results.txt") {
   std::ofstream out(file_name.c_str());
 
-  if (!out.is_open())
-    throw std::runtime_error("VectorToFile: file opening error.");
+  if (!out.is_open()) {
+    std::cerr << "VectorToFile: file opening error." << std::endl;
+    return;
+  }
 
   out << vec;
 
   out.close();
+}
+
+/**
+ * @brief Считывает число из файла (из первой строки)
+ * @param file_name: название файла (по умолчанию "N.dat")
+ * @return int: число
+ */
+inline int NumberFromFile(const std::string& filename) {
+  std::ifstream in(filename.c_str());
+  std::string line;
+
+  if (!in.is_open()) {
+    std::cerr << "NumberFromFile: file opening error." << std::endl;
+    return -1;
+  }
+
+  int number;
+  in >> number;
+
+  in.close();
+
+  return number;
 }
 
 /**

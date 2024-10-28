@@ -12,13 +12,35 @@ namespace parallel {
 #define STANDARD_PARALLEL_TAG 35817
 
 /**
+ * @brief Аварийно завершает работу со средой MPI.
+ * @param state: состояние выполнения MPI.
+ * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
+ */
+inline void Abort(int state, MPI_Comm comm = MPI_COMM_WORLD) {
+  MPI_Abort(comm, state);
+}
+
+/**
  * @brief Завершает выполнение процесса MPI, если состояние не равно
  * MPI_SUCCESS.
  * @param state: состояние выполнения MPI.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
  */
 inline void CheckSuccess(int state, MPI_Comm comm = MPI_COMM_WORLD) {
-  if (state != MPI_SUCCESS) MPI_Abort(comm, state);
+  if (state != MPI_SUCCESS) parallel::Abort(state, comm);
+}
+
+/**
+ * @brief Аварийно завершает работу со средой MPI, выводя ошибку в поток
+ * std::cerr.
+ * @param error_text: текст ошибки.
+ * @param state: состояние выполнения MPI. По умолчанию 1.
+ * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
+ */
+inline void Error(const std::string &error_text, int state = 1,
+                  MPI_Comm comm = MPI_COMM_WORLD) {
+  std::cerr << "Error! Aborting because of: " << error_text << std::endl;
+  parallel::Abort(state, comm);
 }
 
 /**
@@ -82,16 +104,13 @@ inline void Send(T &value, MPI_Datatype datatype, int to_rank,
  * @param to_rank: ранг получателя.
  * @param tag: тег сообщения. По умолчанию STANDARD_PARALLEL_TAG.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Send: arr_len should be
- * non-negative.");
  */
 template <typename T>
 inline void Send(T *arr, int arr_len, MPI_Datatype datatype, int to_rank,
                  int tag = STANDARD_PARALLEL_TAG,
                  MPI_Comm comm = MPI_COMM_WORLD) {
   if (arr_len <= 0)
-    throw std::invalid_argument(
-        "parallel::Send: arr_len should be non-negative.");
+    parallel::Error("parallel::Send: arr_len should be non-negative.");
 
   parallel::CheckSuccess(MPI_Send(arr, arr_len, datatype, to_rank, tag, comm));
 }
@@ -104,16 +123,13 @@ inline void Send(T *arr, int arr_len, MPI_Datatype datatype, int to_rank,
  * @param to_rank: ранг получателя.
  * @param tag: тег сообщения. По умолчанию STANDARD_PARALLEL_TAG.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Send: vector is too big (size >
- * INT_MAX).");
  */
 template <typename T>
 inline void Send(const std::vector<T> &vec, MPI_Datatype datatype, int to_rank,
                  int tag = STANDARD_PARALLEL_TAG,
                  MPI_Comm comm = MPI_COMM_WORLD) {
   if (vec.size() > INT_MAX)
-    throw std::invalid_argument(
-        "parallel::Send: vector is too big (size > INT_MAX).");
+    parallel::Error("parallel::Send: vector is too big (size > INT_MAX).");
 
   parallel::Send(vec.data(), static_cast<int>(vec.size()), datatype, to_rank,
                  tag, comm);
@@ -148,8 +164,6 @@ inline void Receive(T &value, MPI_Datatype datatype, MPI_Status &status,
  * @param from_rank: ранг отправителя. По умолчанию MPI_ANY_SOURCE.
  * @param tag: тег сообщения. По умолчанию STANDARD_PARALLEL_TAG.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Receive: arr_len should be
- * non-negative.");
  */
 template <typename T>
 inline void Receive(T *arr, int arr_len, MPI_Datatype datatype,
@@ -157,8 +171,7 @@ inline void Receive(T *arr, int arr_len, MPI_Datatype datatype,
                     int tag = STANDARD_PARALLEL_TAG,
                     MPI_Comm comm = MPI_COMM_WORLD) {
   if (arr_len <= 0)
-    throw std::invalid_argument(
-        "parallel::Receive: arr_len should be non-negative.");
+    parallel::Error("parallel::Receive: arr_len should be non-negative.");
 
   parallel::CheckSuccess(
       MPI_Recv(arr, arr_len, datatype, from_rank, tag, comm, &status));
@@ -173,8 +186,6 @@ inline void Receive(T *arr, int arr_len, MPI_Datatype datatype,
  * @param from_rank: ранг отправителя. По умолчанию MPI_ANY_SOURCE.
  * @param tag: тег сообщения. По умолчанию STANDARD_PARALLEL_TAG.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Receive: vector is too big (size >
- * INT_MAX).");
  */
 template <typename T>
 inline void Receive(std::vector<T> &vec, MPI_Datatype datatype,
@@ -182,8 +193,7 @@ inline void Receive(std::vector<T> &vec, MPI_Datatype datatype,
                     int tag = STANDARD_PARALLEL_TAG,
                     MPI_Comm comm = MPI_COMM_WORLD) {
   if (vec.size() > INT_MAX)
-    throw std::invalid_argument(
-        "parallel::Receive: vector is too big (size > INT_MAX).");
+    parallel::Error("parallel::Receive: vector is too big (size > INT_MAX).");
 
   parallel::Receive(vec.data(), static_cast<int>(vec.size()), datatype,
                     from_rank, tag, comm, &status);
@@ -211,15 +221,12 @@ inline void Broadcast(T &value, MPI_Datatype datatype, int from_rank = 0,
  * @param datatype: тип данных элементов массива.
  * @param from_rank: ранг процесса рассылки. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Broadcast: arr_len should be
- * non-negative.");
  */
 template <typename T>
 inline void Broadcast(T *arr, int arr_len, MPI_Datatype datatype,
                       int from_rank = 0, MPI_Comm comm = MPI_COMM_WORLD) {
   if (arr_len <= 0)
-    throw std::invalid_argument(
-        "parallel::Broadcast: arr_len should be non-negative.");
+    parallel::Error("parallel::Broadcast: arr_len should be non-negative.");
 
   parallel::CheckSuccess(MPI_Bcast(arr, arr_len, datatype, from_rank, comm));
 }
@@ -231,15 +238,12 @@ inline void Broadcast(T *arr, int arr_len, MPI_Datatype datatype,
  * @param datatype: тип данных элементов вектора.
  * @param from_rank: ранг процесса рассылки. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Broadcast: vector is too big (size >
- * INT_MAX).");
  */
 template <typename T>
 inline void Broadcast(std::vector<T> vec, MPI_Datatype datatype,
                       int from_rank = 0, MPI_Comm comm = MPI_COMM_WORLD) {
   if (vec.size() > INT_MAX)
-    throw std::invalid_argument(
-        "parallel::Broadcast: vector is too big (size > INT_MAX).");
+    parallel::Error("parallel::Broadcast: vector is too big (size > INT_MAX).");
 
   parallel::Broadcast(vec.data(), static_cast<int>(vec.size()), datatype,
                       from_rank, comm);
@@ -275,16 +279,13 @@ inline void Operation(const T &from_value, T &to_value, MPI_Datatype datatype,
  * @param op: операция MPI, которая будет выполнена.
  * @param to_rank: ранг процесса результата. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Operation: arr_len should be
- * non-negative.");
  */
 template <typename T>
 inline void Operation(const T *from_arr, T *to_arr, int arr_len,
                       MPI_Datatype datatype, MPI_Op op, int to_rank = 0,
                       MPI_Comm comm = MPI_COMM_WORLD) {
   if (arr_len <= 0)
-    throw std::invalid_argument(
-        "parallel::Operation: arr_len should be non-negative.");
+    parallel::Error("parallel::Operation: arr_len should be non-negative.");
 
   parallel::CheckSuccess(
       MPI_Reduce(from_arr, to_arr, arr_len, datatype, op, to_rank, comm));
@@ -300,22 +301,16 @@ inline void Operation(const T *from_arr, T *to_arr, int arr_len,
  * @param op: операция MPI, которая будет выполнена.
  * @param to_rank: ранг процесса результата. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Operation: vectors of different
- * sizes.");
- * @throw std::invalid_argument("parallel::Operation: vector is too big (size >
- * INT_MAX).");
  */
 template <typename T>
 inline void Operation(const std::vector<T> &from_vec, std::vector<T> &to_vec,
                       MPI_Datatype datatype, MPI_Op op, int to_rank = 0,
                       MPI_Comm comm = MPI_COMM_WORLD) {
   if (from_vec.size() != to_vec.size())
-    throw std::invalid_argument(
-        "parallel::Operation: vectors of different sizes.");
+    parallel::Error("parallel::Operation: vectors of different sizes.");
 
   if (from_vec.size() > INT_MAX)
-    throw std::invalid_argument(
-        "parallel::Operation: vector is too big (size > INT_MAX).");
+    parallel::Error("parallel::Operation: vector is too big (size > INT_MAX).");
 
   parallel::Operation(from_vec.data(), to_vec.data(),
                       static_cast<int>(from_vec.size()), datatype, op, to_rank,
@@ -354,8 +349,6 @@ inline void Gather(const T &from_value, MPI_Datatype from_value_datatype,
  * @param to_arr_datatype: тип данных элементов массива `to_arr`.
  * @param to_rank: ранг процесса результата. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Gather: arr_len should be
- * non-negative.");
  */
 template <typename T>
 inline void Gather(const T *from_arr, int from_arr_len,
@@ -363,8 +356,7 @@ inline void Gather(const T *from_arr, int from_arr_len,
                    MPI_Datatype to_arr_datatype, int to_rank = 0,
                    MPI_Comm comm = MPI_COMM_WORLD) {
   if (from_arr_len < 0 || to_arr_len < 0)
-    throw std::invalid_argument(
-        "parallel::Gather: arr_len should be non-negative.");
+    parallel::Error("parallel::Gather: arr_len should be non-negative.");
 
   parallel::CheckSuccess(MPI_Gather(from_arr, from_arr_len, from_arr_datatype,
                                     to_arr, to_arr_len, to_arr_datatype,
@@ -381,8 +373,6 @@ inline void Gather(const T *from_arr, int from_arr_len,
  * @param to_vec_datatype: тип данных элементов массива `to_arr`.
  * @param to_rank: ранг процесса результата. По умолчанию 0.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
- * @throw std::invalid_argument("parallel::Gather: vector is too big (size >
- * INT_MAX).");
  */
 template <typename T>
 inline void Gather(const std::vector<T> &from_vec,
@@ -390,8 +380,7 @@ inline void Gather(const std::vector<T> &from_vec,
                    MPI_Datatype to_vec_datatype, int to_rank = 0,
                    MPI_Comm comm = MPI_COMM_WORLD) {
   if (from_vec.size() > INT_MAX || to_vec.size() > INT_MAX)
-    throw std::invalid_argument(
-        "parallel::Gather: vector is too big (size > INT_MAX).");
+    parallel::Error("parallel::Gather: vector is too big (size > INT_MAX).");
 
   parallel::Gather(from_vec.data(), static_cast<int>(from_vec.size()),
                    from_vec_datatype, to_vec.data(),

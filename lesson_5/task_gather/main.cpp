@@ -15,11 +15,8 @@ int main(int argc, char* argv[]) {
 
   const int N = 120;
 
-  if (N % ranks_amount != 0) {
-    throw std::runtime_error("main: N is not divisible by processes amount.");
-
-    MPI_Abort(MPI_COMM_WORLD, 1);
-  }
+  if (N % ranks_amount != 0)
+    parallel::Error("N is not divisible by processes amount");
 
   std::vector<int> curr_rank_vec(N / ranks_amount, curr_rank);
 
@@ -29,7 +26,7 @@ int main(int argc, char* argv[]) {
   parallel::Gather(curr_rank_vec.data(), N / ranks_amount, MPI_INT,
                    main_vec.data(), N / ranks_amount, MPI_INT);
 
-  if (curr_rank == 0) VectorToFile(main_vec, "result.txt");
+  if (curr_rank == 0) VectorToFile(main_vec);
 
   parallel::Finalize();
 }

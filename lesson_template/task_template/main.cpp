@@ -5,8 +5,8 @@
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);
 
-  int ranks_amount = parallel::RanksAmount();
-  int curr_rank = parallel::CurrRank();
+  [[maybe_unused]] int ranks_amount = parallel::RanksAmount();
+  [[maybe_unused]] int curr_rank = parallel::CurrRank();
 
   parallel::Finalize();
 }

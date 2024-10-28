@@ -15,7 +15,8 @@ int main(int argc, char* argv[]) {
 
   std::vector<int> amounts_vec(ranks_amount);
   // std::iota(amounts_vec.begin(), amounts_vec.end(), 1);
-  for (std::size_t i = 0; i < ranks_amount; i++) amounts_vec[i] = i + 1;
+  for (std::size_t i = 0; i < static_cast<std::size_t>(ranks_amount); i++)
+    amounts_vec[i] = i + 1;
 
   std::vector<int> res_vec(ranks_amount * ranks_amount);
   for (std::size_t i = 0; i < res_vec.size(); i++) res_vec[i] = 0;
@@ -30,7 +31,7 @@ int main(int argc, char* argv[]) {
       amounts_vec.data(), displacements.data(), MPI_INT, 0, MPI_COMM_WORLD));
 
   if (curr_rank == 0) {
-    VectorToFile(res_vec, "results.txt");
+    VectorToFile(res_vec);
   }
 
   parallel::Finalize();

@@ -31,7 +31,8 @@ int main(int argc, char* argv[]) {
     displacement += amounts_vec[i];
   }
 
-  for (std::size_t i = 0; i < size; i++) rank_vec[i] = sqrt(curr_rank);
+  for (std::size_t i = 0; i < static_cast<std::size_t>(size); i++)
+    rank_vec[i] = sqrt(curr_rank);
 
   std::vector<double> res_vec(displacement);
 
