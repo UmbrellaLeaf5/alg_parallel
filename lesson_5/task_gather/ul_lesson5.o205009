@@ -1,3 +1,0 @@
---------------------------------------------------------------------------
-mpirun noticed that process rank 4 with PID 0 on node n02.vdi.mipt.ru exited on signal 11 (Segmentation fault).
---------------------------------------------------------------------------
