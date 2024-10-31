@@ -23,7 +23,7 @@ find_package(MPI)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 if(LINUX)
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
 endif()
 
 # ---------------------------------    Add subdirectories   --------------------------------
@@ -31,7 +31,7 @@ file(GLOB_RECURSE SUBDIRS LIST_DIRECTORIES true ".")
 
 foreach(DIR ${SUBDIRS})
   IF(IS_DIRECTORY ${DIR})
-    IF(${DIR} MATCHES "parallel/lesson_[^/]*$")
+    IF(${DIR} MATCHES "${PROJECT_NAME}/lesson_[^/]*$")
       # message(${DIR})
       add_subdirectory(${DIR})
     ENDIF()
