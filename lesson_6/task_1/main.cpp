@@ -3,7 +3,6 @@
 #include <numeric>
 
 #include "parallel.hpp"
-#include "utils.hpp"
 
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);
@@ -22,17 +21,13 @@ int main(int argc, char* argv[]) {
   for (std::size_t i = 0; i < res_vec.size(); i++) res_vec[i] = 0;
 
   std::vector<int> displacements(ranks_amount);
-  displacements[0] = 0;
-  for (std::size_t i = 1; i < displacements.size(); i++)
+  for (std::size_t i = 0; i < displacements.size(); i++)
     displacements[i] = i * (i + 1);
 
-  parallel::CheckSuccess(MPI_Gatherv(
-      rank_vec.data(), rank_vec.size(), MPI_INT, res_vec.data(),
-      amounts_vec.data(), displacements.data(), MPI_INT, 0, MPI_COMM_WORLD));
+  parallel::GatherVarious(rank_vec, MPI_INT, res_vec, MPI_INT, amounts_vec,
+                          displacements);
 
-  if (curr_rank == 0) {
-    VectorToFile(res_vec);
-  }
+  if (curr_rank == 0) VectorToFile(res_vec);
 
   parallel::Finalize();
 }

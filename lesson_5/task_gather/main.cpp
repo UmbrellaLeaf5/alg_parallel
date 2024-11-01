@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "parallel.hpp"
-#include "utils.hpp"
 
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);

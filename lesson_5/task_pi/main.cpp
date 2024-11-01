@@ -6,7 +6,6 @@
 
 #include "parallel.hpp"
 #include "pi.hpp"
-#include "utils.hpp"
 
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);

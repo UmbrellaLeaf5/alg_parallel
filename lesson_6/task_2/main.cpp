@@ -7,7 +7,6 @@
 #include <iostream>
 
 #include "parallel.hpp"
-#include "utils.hpp"
 
 int main(int argc, char* argv[]) {
   parallel::Init(argc, argv);
@@ -23,7 +22,7 @@ int main(int argc, char* argv[]) {
   std::vector<int> displacements(ranks_amount);
   std::vector<int> amounts_vec(ranks_amount);
 
-  parallel::Gather(&size, 1, MPI_INT, amounts_vec.data(), 1, MPI_INT);
+  parallel::Gather(size, MPI_INT, amounts_vec[0], MPI_INT);
 
   int displacement = 0;
   for (int i = 0; i < ranks_amount; ++i) {
@@ -36,16 +35,9 @@ int main(int argc, char* argv[]) {
 
   std::vector<double> res_vec(displacement);
 
-  // std::cout << "rank_vec: " << rank_vec << std::endl
-  //           << "size: " << size << std::endl
-  //           << "res_vec: " << res_vec << std::endl
-  //           << "amounts_vec: " << amounts_vec << std::endl
-  //           << "displacements: " << displacements << std::endl
-  //           << std::endl;
-
-  parallel::CheckSuccess(MPI_Gatherv(
-      rank_vec.data(), size, MPI_DOUBLE, res_vec.data(), amounts_vec.data(),
-      displacements.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD));
+  parallel::GatherVarious(rank_vec.data(), MPI_DOUBLE, res_vec.data(),
+                          MPI_DOUBLE, amounts_vec.data(), displacements.data(),
+                          size);
 
   if (curr_rank == 0) {
     std::ofstream outfile(

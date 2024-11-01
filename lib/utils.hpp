@@ -1,5 +1,7 @@
 #pragma once
 
+#include <climits>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -81,4 +83,29 @@ std::string ToString(T value) {
   std::stringstream ss;
   ss << value;
   return ss.str();
+}
+
+/**
+ * @brief Минимальное значение из двух аргументов
+ * @tparam T: тип данных аргументов
+ * @param a: первый аргумент
+ * @param b: второй аргумент
+ * @return T: минимальное значение из `a` и `b`
+ */
+template <typename T>
+inline T Min(T a, T b) {
+  return a < b ? a : b;
+}
+
+/**
+ * @brief Минимальное значение из набора аргументов
+ * @tparam T: тип данных аргументов
+ * @tparam Args: типы данных остальных аргументов
+ * @param a: первый аргумент
+ * @param args: остальные аргументы
+ * @return T: минимальное значение из всех аргументов.
+ */
+template <typename T, typename... Args>
+inline T Min(T a, Args... args) {
+  return Min(a, Min(args...));
 }
