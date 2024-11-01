@@ -7,13 +7,13 @@ get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
 project(${PROJECT_NAME} LANGUAGES CXX)
 
 # ---------------------------------    Set C++ settings    ---------------------------------
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++17 -O2")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++11 -O2")
 
 # less speed, more warnings = less potential errors in code
 # flags using source: https://codeforces.com/blog/entry/15547?locale=ru
-# set(CMAKE_CXX_FLAGS " -Wall -Wextra -pedantic -std=c++17 -O2 -Wfloat-equal -Wconversion -Wlogical-op -Wduplicated-cond")
+# set(CMAKE_CXX_FLAGS " -Wall -Wextra -pedantic -std=c++11 -O2 -Wfloat-equal -Wconversion -Wlogical-op -Wduplicated-cond")
 
 # ---------------------------------   Set CMake settings   ---------------------------------
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
