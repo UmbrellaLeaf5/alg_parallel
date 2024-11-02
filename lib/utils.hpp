@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -46,6 +47,29 @@ inline void VectorToFile(const std::vector<Type>& vec,
   }
 
   out << vec;
+
+  out.close();
+}
+
+/**
+ * @brief Записывает вектор в файл
+ * @tparam Type: тип данных в векторе
+ * @param vec: вектор
+ * @param precision: точность
+ * @param file_name: имя файла
+ */
+inline void VectorToFileWithPrecision(
+    const std::vector<double>& vec, int precision = 6,
+    const std::string& file_name = "results.txt") {
+  std::ofstream out(file_name.c_str());
+
+  if (!out.is_open()) {
+    std::cerr << "VectorToFileWithPrecision: file opening error." << std::endl;
+    return;
+  }
+
+  for (size_t i = 0; i < vec.size(); i++)
+    out << std::fixed << std::setprecision(precision) << vec[i] << std::endl;
 
   out.close();
 }
