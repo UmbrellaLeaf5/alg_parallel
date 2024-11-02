@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
   double pi = 0;
 
-  parallel::Operation(&part_of_pi, &pi, 1, MPI_DOUBLE, MPI_SUM);
+  parallel::Operation(part_of_pi, pi, MPI_DOUBLE, MPI_SUM);
 
   if (curr_rank == 0) std::cout << "Pi: " << pi << std::endl;
 

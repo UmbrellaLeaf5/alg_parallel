@@ -11,10 +11,10 @@ namespace parallel {
 
 /**
  * @brief Аварийно завершает работу со средой MPI.
- * @param state: состояние выполнения MPI.
+ * @param state: состояние выполнения MPI. По умолчанию 1.
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
  */
-inline void Abort(int state, MPI_Comm comm = MPI_COMM_WORLD) {
+inline void Abort(int state = 1, MPI_Comm comm = MPI_COMM_WORLD) {
   MPI_Abort(comm, state);
 }
 
