@@ -187,12 +187,12 @@ inline void Send(const std::vector<T> &vec, MPI_Datatype datatype,
  * @param comm: коммуникатор MPI. По умолчанию MPI_COMM_WORLD.
  */
 template <typename T>
-inline void Recieve(T &value, MPI_Datatype datatype, MPI_Status &status,
+inline void Receive(T &value, MPI_Datatype datatype, MPI_Status &status,
                     int from_rank = MPI_ANY_SOURCE,
                     int tag = STANDARD_PARALLEL_TAG,
                     MPI_Comm comm = MPI_COMM_WORLD, bool need_print = false) {
   if (need_print)
-    std::cout << "parallel::Recieve with args: value: " << value
+    std::cout << "parallel::Receive with args: value: " << value
               << "; datatype: " << datatype << "; from_rank: " << from_rank
               << "; tag: " << tag << "; comm: " << comm;
 
