@@ -1,0 +1,28 @@
+Processes amount: 4
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 0
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 4
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 5
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 3
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 2
+
+Hello, OMP!
+ Threads amount: 6
+ Current thread: 1
+
+Threads amount: 1
+Current thread: 0

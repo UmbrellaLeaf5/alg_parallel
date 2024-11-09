@@ -19,12 +19,11 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++11 -O2")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # ---------------------------------         Find MPI        --------------------------------
-find_package(MPI)
+find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
-if(LINUX)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
-endif()
+find_package(OpenMP REQUIRED)
+string(APPEND CMAKE_CXX_FLAGS " -fopenmp")
 
 # ---------------------------------    Add subdirectories   --------------------------------
 file(GLOB_RECURSE SUBDIRS LIST_DIRECTORIES true ".")
