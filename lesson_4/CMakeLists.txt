@@ -19,18 +19,20 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++11 -O2")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # ---------------------------------         Find MPI        --------------------------------
-find_package(MPI)
+find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 if(LINUX)
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" -fopenmp)
+  string(APPEND CMAKE_CXX_FLAGS " -fopenmp")
 endif()
 
 # ---------------------------------      Add executable     --------------------------------
 file(GLOB_RECURSE SUBFOLDERS LIST_DIRECTORIES true ".")
 
+find_library(Lib ../)
+
 foreach(SUBDIR ${SUBFOLDERS})
-  IF(IS_DIRECTORY ${SUBDIR})
+  if(IS_DIRECTORY ${SUBDIR})
     get_filename_component(SUBPROJECT_NAME ${SUBDIR} NAME)
     set(SUBPROJECT_NAME "${PROJECT_NAME}_${SUBPROJECT_NAME}")
 
@@ -38,11 +40,8 @@ foreach(SUBDIR ${SUBFOLDERS})
 
     add_executable(${SUBPROJECT_NAME} ${SUBPROJECT_SOURCES})
 
-    find_library(Lib ../)
     target_link_libraries(${SUBPROJECT_NAME} PUBLIC MPI::MPI_CXX Lib)
-  ELSE()
-    CONTINUE()
-  ENDIF()
+  endif()
 endforeach()
 
 # ---------------------------------     Copy extra files    --------------------------------
