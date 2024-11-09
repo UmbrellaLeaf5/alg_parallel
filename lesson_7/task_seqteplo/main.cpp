@@ -21,11 +21,12 @@ int main(int argc, char *argv[]) {
     parallel::Error("Usage: .exe file n points.");
   }
 
-  if (curr_rank == 0)
+  if (curr_rank == 0) {
     if (N <= 0)
       parallel::Error("N should be positive!");
     else
       std::cout << "Set N to " << N << "." << std::endl;
+  }
 
   h = 1.0 / N;
   tau = 0.5 * (h * h);
