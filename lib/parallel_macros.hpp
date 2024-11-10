@@ -26,8 +26,11 @@
  * @param state: состояние выполнения MPI.
  * @param comm: коммуникатор MPI.
  */
-#define parallel_CheckSuccess(state, comm) \
-  if (state != MPI_SUCCESS) parallel_Abort(state, comm)
+#define parallel_CheckSuccess(state, comm)           \
+  {                                                  \
+    int st = state;                                  \
+    if (st != MPI_SUCCESS) parallel_Abort(st, comm); \
+  }
 
 /**
  * @brief Аварийно завершает работу со средой MPI, выводя ошибку в поток
@@ -627,8 +630,11 @@
  * MPI_SUCCESS.
  * @param state: состояние выполнения MPI.
  */
-#define parallel_CheckSuccess(state) \
-  if (state != MPI_SUCCESS) parallel_Abort();
+#define parallel_CheckSuccess(state)         \
+  {                                          \
+    int st = state;                          \
+    if (st != MPI_SUCCESS) parallel_Abort(); \
+  }
 
 /**
  * @brief Аварийно завершает работу со средой MPI, выводя ошибку в поток
