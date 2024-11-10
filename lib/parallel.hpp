@@ -266,7 +266,7 @@ inline void Receive(T *arr, int arr_len, MPI_Datatype datatype,
 /**
  * @brief Получает вектор по сети MPI.
  * @tparam T: тип элементов вектора.
- * @param arr: вектор, в который нужно получить данные.
+ * @param vec: вектор, в который нужно получить данные.
  * @param datatype: тип данных элементов вектора.
  * @param status: статус сообщения.
  * @param from_rank: ранг отправителя. По умолчанию MPI_ANY_SOURCE.
@@ -352,7 +352,7 @@ inline void ReceiveIgnoreStatus(T *arr, int arr_len, MPI_Datatype datatype,
 /**
  * @brief Получает вектор по сети MPI.
  * @tparam T: тип элементов вектора.
- * @param arr: вектор, в который нужно получить данные.
+ * @param vec: вектор, в который нужно получить данные.
  * @param datatype: тип данных элементов вектора.
  * @param from_rank: ранг отправителя. По умолчанию MPI_ANY_SOURCE.
  * @param tag: тег сообщения. По умолчанию PARALLEL_STANDARD_TAG.
