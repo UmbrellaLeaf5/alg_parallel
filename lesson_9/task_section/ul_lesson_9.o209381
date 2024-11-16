@@ -1,0 +1,10 @@
+Section 2 current thread: 1
+Section 5 current thread: 1
+Section 6 current thread: 1
+Section 4 current thread: 2
+Section 1 current thread: 3
+Section 3 current thread: 0
+Just parallel: 2
+Just parallel: 0
+Just parallel: 3
+Just parallel: 1

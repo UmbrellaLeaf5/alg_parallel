@@ -1,0 +1,6 @@
+First single. Current thread: 1
+Just parallel. Current thread: 1
+Second single. Current thread: 1
+Just parallel. Current thread: 2
+Just parallel. Current thread: 0
+Just parallel. Current thread: 3
