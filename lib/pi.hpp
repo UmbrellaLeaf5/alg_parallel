@@ -8,7 +8,7 @@
  * @param x: входной аргумент
  * @return double: результат вычисления
  */
-double FourMinusSqrt(double x) { return sqrt(4.0 - x * x); }
+inline double SqrtFourMinusSqr(double x) { return sqrt(4.0 - x * x); }
 
 /**
  * @brief Считает площадь кусочка полуокружности
@@ -16,8 +16,8 @@ double FourMinusSqrt(double x) { return sqrt(4.0 - x * x); }
  * @param seg: длина счетного отрезка
  * @return double: значение площади
  */
-double Area(double x, double seg) {
-  return (FourMinusSqrt(x) + FourMinusSqrt(x + seg)) * seg / 2.0;
+inline double Area(double x, double seg) {
+  return (SqrtFourMinusSqr(x) + SqrtFourMinusSqr(x + seg)) * seg / 2.0;
 }
 
 /**
@@ -27,7 +27,7 @@ double Area(double x, double seg) {
  * @param end: конечный индекс части (не включая)
  * @return double: часть значения числа Пи
  */
-double PartOfPi(int N, int start, int end) {
+inline double PartOfPi(int N, int start, int end) {
   double part_of_pi = 0;
   double seg = 2.0 / N;
   double curr_pos = double(start) / N * 2.0;
@@ -40,14 +40,14 @@ double PartOfPi(int N, int start, int end) {
   return part_of_pi;
 }
 
-// double Pi(int N) { return PartOfPi(N, 0, N); }
+// inline double Pi(int N) { return PartOfPi(N, 0, N); }
 
 /**
  * @brief Вычисляет значение числа Пи
  * @param N: количество частей, на которые делится полуокружность
  * @return double: значение числа Пи
  */
-double Pi(int N) {
+inline double Pi(int N) {
   double pi = 0;
   double seg = 2.0 / N;
   double curr_pos = 0;
