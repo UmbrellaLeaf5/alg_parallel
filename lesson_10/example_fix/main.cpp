@@ -1,7 +1,6 @@
 #include <omp.h>
 #include <stdio.h>
 
-
 // MARK: wrong realization:
 
 #if (0)
@@ -52,6 +51,8 @@ int main() {
 }
 
 #endif
+
+// MARK: the best realization:
 
 int main() {
   // sequential part:
