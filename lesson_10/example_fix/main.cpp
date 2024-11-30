@@ -1,6 +1,6 @@
+#include <omp.h>
 #include <stdio.h>
 
-#include "omp.h"
 
 // MARK: wrong realization:
 

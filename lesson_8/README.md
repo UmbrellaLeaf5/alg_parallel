@@ -30,7 +30,7 @@
 
 Для использования процедур в программу необходимо добавить include:
 ```cpp
-#include "omp.h" 
+#include <omp.h> 
 ```
 
 ! Имена всех процедур в OpenMP начинаются с префикса `omp_`
@@ -58,7 +58,7 @@ qsub start.sh
 ### Пример: 
 ```cpp
 #include <iostream>
-// #include "omp.h"
+// #include <omp.h>
 
 int main() {
   // sequential part:
@@ -90,7 +90,7 @@ void omp_set_num_threads(int num);
 ```cpp
 #include <iostream>
 
-#include "omp.h"
+#include <omp.h>
 
 int main() {
   // sequential part:
@@ -141,7 +141,7 @@ private (имя[, имя[, ...]])
 // #include <iostream>
 #include <stdio.h>
 
-// #include "omp.h"
+// #include <omp.h>
 
 int x_0 = 2;
 
@@ -179,7 +179,7 @@ int main() {
 // #include <iostream>
 #include <stdio.h>
 
-// #include "omp.h"
+// #include <omp.h>
 
 int x_0 = 2;
 

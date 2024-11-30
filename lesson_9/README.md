@@ -17,7 +17,7 @@
 ```cpp
 #include <stdio.h>
 
-#include "omp.h"
+#include <omp.h>
 
 int main() {
   static int x0 = 5;
@@ -54,7 +54,7 @@ copyin(имя[, имя[, ...]])
 ```cpp
 #include <stdio.h>
 
-#include "omp.h"
+#include <omp.h>
 
 int main() {
   static int x0 = 5;
@@ -101,7 +101,7 @@ reduction(оператор:имя[,[имя ...]])
 ```cpp
 #include <stdio.h>
 
-#include "omp.h"
+#include <omp.h>
 
 int main() {
   int count = 0;

@@ -1,9 +1,11 @@
+#include <omp.h>
+
 #include <cmath>
 #include <fstream>
 
-#include "omp.h"
 #include "pi.hpp"
 #include "utils.hpp"
+
 
 int main() {
   double pi = 0;

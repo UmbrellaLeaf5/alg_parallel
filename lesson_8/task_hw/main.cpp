@@ -1,7 +1,7 @@
 // #include <iostream>
+#include <omp.h>
 #include <stdio.h>
 
-#include "omp.h"
 
 int main() {
   // sequential part:

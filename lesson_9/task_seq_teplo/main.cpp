@@ -1,9 +1,9 @@
 #include <math.h>
+#include <omp.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "omp.h"
 
 void Error(const char* format, ...) {
   // вывод сообщений об ошибках в stderr
