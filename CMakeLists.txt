@@ -29,14 +29,14 @@ string(APPEND CMAKE_CXX_FLAGS " -fopenmp")
 file(GLOB_RECURSE SUBDIRS LIST_DIRECTORIES true ".")
 
 foreach(DIR ${SUBDIRS})
-  IF(IS_DIRECTORY ${DIR})
-    IF(${DIR} MATCHES "${PROJECT_NAME}/lesson_[^/]*$")
+  if(IS_DIRECTORY ${DIR})
+    if(${DIR} MATCHES "${PROJECT_NAME}/lesson_[^/]*$")
       # message(${DIR})
       add_subdirectory(${DIR})
-    ENDIF()
+    endif()
   ELSE()
     CONTINUE()
-  ENDIF()
+  endif()
 endforeach()
 
 # Lib
