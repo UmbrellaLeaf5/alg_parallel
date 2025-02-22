@@ -97,13 +97,13 @@ inline int NumberFromFile(const std::string& filename) {
 }
 
 /**
- * @brief Конвертирует тип, для которого определна операция ввода в std::string
+ * @brief Конвертирует тип, для которого определена операция ввода в std::string
  * @tparam T: тип
  * @param value: значение
  * @return std::string: выходная строка
  */
 template <typename T>
-std::string ToString(T value) {
+inline std::string ToString(T value) {
   std::stringstream ss;
   ss << value;
   return ss.str();
